@@ -1,15 +1,22 @@
-import React from 'react'
+import { useEffect } from 'react';
 import './App.css'
+import {ProductTableComponent} from './components/ProductTable';
+import {UpgradeTableComponent} from './components/UpgradeTable';
+import {products} from './components/Products.json';
+import {upgrades} from './components/Upgrades.json'
 
 
 
-function App(){
-  return(
-    <div>
-      <h2>Test</h2>
-    </div>
-   )
-    
-   }
+
+  function App(){
+    return(
+     <main>
+       <ProductTableComponent table={products}/>
+
+       <ProductTableComponent table={upgrades}/>
+     </main>
+    )
+      
+    }
 
   export default App;
