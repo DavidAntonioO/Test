@@ -13,7 +13,7 @@ import {upgrades} from './components/Upgrades.json'
      <main>
        <ProductTableComponent table={products}/>
 
-       <ProductTableComponent table={upgrades}/>
+       <UpgradeTableComponent table={upgrades}/>
      </main>
     )
       

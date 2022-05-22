@@ -1,43 +1,47 @@
-import React, { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react";
+import useDynamicProductTable from "../custom-hooks/useDynamicProductTable";
+import { ProductTable } from "../promises/interfaces";
 
-function listarProducts(){
-    const [products, setProducts ] = useState([])
-
+export const ProductTableComponent = ({ table }: ProductTable) => {
+    const [myTableHead, myTableBody] = useDynamicProductTable(table);
+    const [selectValue, setSelectValue] = useState<string>('');
+    const selectInput = useRef<HTMLInputElement>(null);
     useEffect(() => {
-        fetch("components/Products.json")  // aqui madamos a llamar el json con los datos de los productos
-        .then(response => response.json())
-        .then(datos => {
-            setProducts(datos)
-        })
+        console.log(selectValue);
+    }, [selectValue]);
 
-    },[])
-
-    return products
-}
-
-export default function ProductTable(){
-    const products = listarProducts()
-
-    return (
-        <div>
-            <h2>Table of products</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th scope="col">Name</th>
-                        <th scope="col">Price</th>
-                        
-                    </tr>
-                </thead>
-                <tbody>
-                    {products.map(item => (
-                        <tr>
-                            <td>{item.product}</td> //tengo el mismo error en el Upgrade, no me deja jalar el key para mostrarlo en la tabla
-                            <td>{item.price}</td>
+    return <section>
+        <select onChange={() => setSelectValue(selectInput.current!.value)}/>
+        <table>
+            <thead>
+                <tr>
+                    {
+                        myTableHead.map((v, k) => {
+                            return <th key={k}>
+                                {v}
+                            </th>
+                        })
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                {
+                    myTableBody.map((row, k) => {
+                        return <tr key={k}>
+                            {
+                                row.map((vColumn, l) => {
+                                    return <td key={l}>
+                                        {vColumn}
+                                    </td>
+                                })
+                            }
                         </tr>
-                    ))}
-                </tbody>
-            </table>
-        </div>
-    )
+                    })
+                }
+                <tr>
+
+                </tr>
+            </tbody>
+        </table>
+    </section>
 }
